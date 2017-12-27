@@ -31,17 +31,23 @@ Role Variables
  - `allow_transfer_to:` is a list of IP adresses that may download our local zone files. (in other words: a list of your secondary/slave name servers)
  - `recursion:` is a boolean. If `true`, recursive queries will be possible, but still limited to the list given in `allow_recursive_queries_from`. Do not, ever, configure a DNS server to allow recursive queries from untrusted IPs. You would be creating a DDoS tool for others.
  - `allow_recursive_queries_from:` a list of cidr notations to permit making recursive DNS queries. All other clients will be denied. The default is `[ "127.0.0.1/8" ]`.
- - `listen_on:` is a list of listen directives. Example:
+ - `listen_on:` is a list of listen directives.
+    The default is to listen on all interfaces on port 53.
+ - `listen_on_v6:` is the same as `listen_on`, but vor IPv6. The default is the same as for IPv4.
+ - `local_zone_file_dir:` is a (local) path to a directory containing zone files, which will be copied to the server and integrated into the configuriation files as primary zones. (can only add and change zone files, not remove them)
+ - `remote_zone_file_dir:` is the same, but for a directory that already exists on the destination server.
+ - `slave_zones:` is a list of zones to configure as slave zones.
+
+Example for `listen_on`:
+
 	listen_on:
 	    port: 53
 	    interfaces:
 	        - 127.0.0.1
 	        - 192.168.40.1
-    The default is to listen on all interfaces on port 53.
- - `listen_on_v6:` is the same as `listen_on`, but vor IPv6. The default is the same as for IPv4.
- - `local_zone_file_dir:` is a (local) path to a directory containing zone files, which will be copied to the server and integrated into the configuriation files as primary zones. (can only add and change zone files, not remove them)
- - `remote_zone_file_dir:` is the same, but for a directory that already exists on the destination server.
- - `slave_zones:` is a list of zones to configure as slave zones. Example:
+
+Example for `slave_zones`:
+
 	slave_zones:
 	    - db.example.com
 	      masters:
@@ -49,10 +55,11 @@ Role Variables
 	    - frontend.example.com
 	      masters:
 	        - 192.168.40.1
-   In what appears to be a miraculously fortunate twist of fate, this is
-   also the exact format of the `zones` part of the return value of this role.
-   Consider using Ansible's `register:` when configuring the master server
-   and using the return value to configure the slaves. (see example below)
+
+In what appears to be a miraculously fortunate twist of fate, this is
+also the exact format of the `zones` part of the return value of this role.
+Consider using Ansible's `register:` when configuring the master server
+and using the return value to configure the slaves. (see example below)
 
 Dependencies
 ------------
