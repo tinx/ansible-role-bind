@@ -59,9 +59,9 @@ Example for `slave_zones`:
 	      - 192.168.40.1
 
 In what appears to be a miraculously fortunate twist of fate, this is
-also the exact format of the `zones` part of the return value of this role.
-Consider using Ansible's `register:` when configuring the master server
-and using the return value to configure the slaves. (see example below)
+also the exact format of the `primary_zones` fact set by this role when run
+on a master.  Consider configuring the master server
+and using the reported fact to configure the slaves. (see example below)
 
 Dependencies
 ------------
@@ -83,7 +83,6 @@ Let's create a simple master/slave setup.
            allow_transfer_to:
              - 192.168.50.2
            local_zone_file_dir: /home/dns/git/dns-zones/
-         register: conf_primary
 
     # configure slave
     - hosts: secondaries
@@ -93,7 +92,7 @@ Let's create a simple master/slave setup.
            name: tinx.bind
          vars:
            primary: 192.168.50.1
-           slave_zones: '{{ conf_primary.zones }}'
+           slave_zones: '{{ hostvars[groups.primary|first].primary_zones }}'
 
 How to remove a zone:
 
@@ -108,6 +107,17 @@ How to remove a zone:
            name: tinx.bind
          vars:
            state: restarted
+
+Change nothing, but print a list of primary zones:
+
+    - hosts: primary
+    - tasks:
+       - name: Query bind info
+         include_role:
+           name: tinx.bind
+       - name: Print primary zones
+         debug:
+           var: hostvars[primary].primary_zones
 
 License
 -------
