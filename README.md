@@ -10,6 +10,9 @@ This role does not create or manage zone files, because there are
 simply too many ways and data sources that people want to use for
 that. So you will have to manage your zone files some other way.
 
+Zone files must be named `db.*`. Other files will be ignore when
+creating primary zone lists.
+
 This role is written for CentOS 7.S
 
 `root` access is required to install and configure bind. The role
@@ -85,7 +88,7 @@ Let's create a simple master/slave setup.
     # configure slave
     - hosts: secondaries
     - tasks:
-       - name: Configure primary nameserver
+       - name: Configure secondary nameserver
          include_role:
            name: tinx.bind
          vars:
@@ -98,7 +101,7 @@ How to remove a zone:
     - tasks:
        - name: Remove zone file
          file:
-           path: /var/named/chroot/primary/beta.example.com
+           path: /var/named/chroot/primary/db.beta.example.com
            state: absent
        - name: Re-create config and restart bind
          include_role:
