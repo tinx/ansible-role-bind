@@ -1,0 +1,5 @@
+---
+bind_packages:
+  - bind
+  - bind-utils
+  - bind-chroot
