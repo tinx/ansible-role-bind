@@ -1,0 +1,15 @@
+galaxy_info:
+  author: Andreas Jaekel
+  description: Installs and configures bind9 on CnetOS 7
+  license: BSD
+  min_ansible_version: 2.4
+  platforms:
+    - name: CentOS
+      versions:
+        - 7,4
+
+  galaxy_tags:
+    - bind9
+    - bind
+
+dependencies: []
