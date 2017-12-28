@@ -1,0 +1,45 @@
+---
+- name: Check recursion setting
+  lineinfile:
+    path: /etc/named.conf
+    regexp: '^\s+recursion '
+    line: '{% if recursion %}        recursion yes;{% else %}        recusion no;{% endif%}'
+  when: recursion is defined
+
+- name: Check allow_recursion setting
+  lineinfile:
+    path: /etc/named.conf
+    regexp: '^acl "may_recursion" { '
+    line: 'acl "may_recursion" { {{allow_recursion|join("; ")}}; };'
+  when: allow_recursion is defined
+
+- name: Check allow_query setting
+  lineinfile:
+    path: /etc/named.conf
+    regexp: '^acl "may_query" { '
+    line: 'acl "may_query" { {{allow_query|join("; ")}}; };'
+  when: allow_query is defined
+
+- name: Check allow_transfer setting
+  lineinfile:
+    path: /etc/named.conf
+    regexp: '^acl "may_transfer" { '
+    line: 'acl "may_transfer" { {{allow_transfer|join("; ")}}; };'
+  when: allow_transfer is defined
+
+- name: Check listen_on setting
+  lineinfile:
+    path: /etc/named.conf
+    insertafter: '^options {'
+    regexp: '^        listen-on port {{listen_on.port}} { '
+    line: '        listen-on port {{listen_on.port}} { {{listen_on.interfaces|join("; ")}}; };'
+  when: listen_on is defined
+
+- name: Check listen_on_v6 setting
+  lineinfile:
+    path: /etc/named.conf
+    insertafter: '^options {'
+    regexp: '^        listen-on-v6 port {{listen_on_v6.port}} { '
+    line: '        listen-on-v6 port {{listen_on_v6.port}} { {{listen_on_v6.interfaces|join("; ")}}; };'
+  when: listen_on_v6 is defined
+

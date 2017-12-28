@@ -45,12 +45,16 @@
         - /etc/named/named.conf.primary_zones
         - /etc/named/named.conf.secondary_zones
       when: not st.stat.exists
+
+    - name: Render config settings
+      include_tasks: tasks_render_config.yml
   
     - name: Control named service
       service:
         name: named-chroot
         state: '{{ state }}'
-    when: state == 'started' or state == 'restarted'
+
+    when: state != 'absent'
 
   become: true
   become_user: root

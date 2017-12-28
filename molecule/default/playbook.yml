@@ -1,5 +1,23 @@
 ---
 - name: Converge
   hosts: all
-  roles:
-    - role: tinx.bind
+  tasks:
+    - include_role:
+        name: tinx.bind
+      vars:
+        recursion: true
+        allow_recursion:
+          - 127.0.0.1
+          - 10.40.0.0/24
+          - 10.50.0.0/24
+          - 10.60.0.0/24
+        listen_on:
+          port: 53
+          interfaces:
+            - 127.0.0.1
+            - 10.40.0.6
+        listen_on_v6:
+          port: 10053
+          interfaces:
+            - 0.0.0.0
+      
