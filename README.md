@@ -52,10 +52,10 @@ Example for `listen_on`:
 Example for `slave_zones`:
 
 	slave_zones:
-	  - db.example.com
+	  - name: db.example.com
 	    masters:
 	      - 192.168.40.1
-	  - frontend.example.com
+	  - name: frontend.example.com
 	    masters:
 	      - 192.168.40.1
 

@@ -20,4 +20,12 @@
           port: 10053
           interfaces:
             - 0.0.0.0
-      
+        slave_zones:
+          - name: etcd.openshift.uf0.de
+            masters:
+              - 10.40.0.5
+              - 10.40.0.4
+          - name: node.openshift.uf0.de
+            masters:
+              - 10.40.0.5
+              - 10.40.0.4
