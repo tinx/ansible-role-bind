@@ -15,3 +15,4 @@ lisen_on_v6:
     interfaces:
       - 127.0.0.1
 slave_zones: []
+keep_primary_zones: false

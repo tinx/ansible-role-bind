@@ -2,6 +2,12 @@
 - block:
   # block for 'become: true'
 
+    - name: Remove primary zone files
+      file:
+        path: /etc/named/primaries
+        state: absent
+      when: keep_primary_zones is not defined or not keep_primary_zones
+
     - name: Stop service
       service:
         name: named-chroot
@@ -63,6 +69,50 @@
             - restart named-chroot
           tags:
             - config
+
+        - name: Copy local zone files
+          copy:
+            src: '{{ local_zone_file_dir }}'
+            dest: /etc/named/primaries
+            owner: named
+            group: named
+            mode: 0600
+            directory_mode: 0700
+          notify:
+            - restart named-chroot
+          tags:
+            - config
+            - primary_zones
+            - copy_local_primary_zones
+            - copy_primary_zones
+          when: local_zone_file_dir is defined
+
+        - block:
+            - name: Copy remote zone files
+              shell: cp -r * /etc/named/primaries/
+              args:
+                chdir: '{{ remote_zone_file_dir }}'
+              notify:
+                - restart named-chroot
+            - name: Fix file permissions
+              file:
+                path: /etc/named/primaries
+                state: directory
+                owner: named
+                group: named
+                mode: 0600
+              notify:
+                - restart named-chroot
+            - name: Fix directory permissions
+              file:
+                path: /etc/named/primaries
+                mode: 0700
+          tags:
+            - config
+            - primary_zones
+            - copy_remote_primary_zones
+            - copy_primary_zones
+          when: remote_zone_file_dir is defined
 
         - name: Collect list of primary zones
           find:
