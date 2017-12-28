@@ -52,9 +52,9 @@
 
 - name: Check slave zone settings
   lineinfile:
-    path: /etc/named/named.conf.secondary_zones
+    path: /etc/named/named.secondary_zones
     regexp: '^zone "{{ zone.name }}" { '
-    line: 'zone "{{ zone.name }}" { type slave; file "slaves/db.{{ zone.name }}"; masters {{zone.masters|join("; ")}}; };'
+    line: 'zone "{{ zone.name }}" { type slave; file "slaves/db.{{ zone.name }}"; masters { {{zone.masters|join("; ")}}; }; };'
   with_items: '{{ slave_zones }}'
   loop_control:
     loop_var: zone

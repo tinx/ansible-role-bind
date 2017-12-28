@@ -1,3 +1,5 @@
+// {{ ansible_managed }}
+
 acl "may_query" { 127.0.0.1/8; };
 acl "may_recursion" { 127.0.0.1/8; };
 acl "may_transfer" { };
@@ -39,7 +41,7 @@ zone "." IN {
         file "named.ca";
 };
 
-include "/etc/named/named.conf.primary_zones";
-include "/etc/named/named.conf.secondary_zones";
+include "/etc/named/named.primary_zones";
+include "/etc/named/named.secondary_zones";
 include "/etc/named.rfc1912.zones";
 include "/etc/named.root.key";

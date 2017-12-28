@@ -38,12 +38,15 @@
         group: named
       when: not st.stat.exists
     - name: make sure the include files exist
-      file:
-        path: '{{ item }}'
-        state: touch
+      template:
+        src: '{{item}}.j2'
+        dest: '/etc/named/{{item}}'
+        mode: 0640
+        owner: root
+        group: named
       with_items:
-        - /etc/named/named.conf.primary_zones
-        - /etc/named/named.conf.secondary_zones
+        - named.primary_zones
+        - named.secondary_zones
       when: not st.stat.exists
 
     - name: Render config settings
