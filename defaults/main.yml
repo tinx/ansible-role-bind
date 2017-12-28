@@ -1,2 +1,17 @@
 ---
 state: started
+recursion: false
+allow_recursion:
+  - 127.0.0.1
+allow_query:
+  - 127.0.0.1
+allow_transfer: []
+lisen_on:
+  - port: 53
+    interfaces:
+      - 127.0.0.1
+lisen_on_v6:
+  - port: 53
+    interfaces:
+      - 127.0.0.1
+slave_zones: []
