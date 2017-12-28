@@ -1,12 +1,44 @@
 // {{ ansible_managed }}
 
-acl "may_query" { 127.0.0.1/8; };
-acl "may_recursion" { 127.0.0.1/8; };
-acl "may_transfer" { };
+acl "may_query" {
+{% if allow_query is defined %}
+{% for cidr in allow_query %}
+        {{ cidr }};
+{% endfor %}
+{% endif %}
+};
+
+acl "may_recursion" {
+{% if allow_recursion is defined %}
+{% for cidr in allow_recursion %}
+        {{ cidr }};
+{% endfor %}
+{% endif %}
+};
+
+acl "may_transfer" {
+{% if allow_transfer is defined %}
+{% for cidr in allow_transfer %}
+        {{ cidr }};
+{% endfor %}
+{% endif %}
+};
 
 options {
-        listen-on port 53 { 127.0.0.1; };
-        listen-on-v6 port 53 { ::1; };
+{% for listen in listen_on %}
+        listen-on port {{ listen.port }} {
+{% for cidr in listen.interfaces %}
+                {{ cidr }};
+{% endfor %}
+        };
+{% endfor %}
+{% for listen in listen_on_v6 %}
+        listen-on-v6 port {{ listen.port }} {
+{% for cidr in listen.interfaces %}
+                {{ cidr }};
+{% endfor %}
+        };
+{% endfor %}
         directory       "/var/named";
         dump-file       "/run/named/cache_dump.db";
         statistics-file "/run/named/named_stats.txt";
@@ -15,7 +47,7 @@ options {
         allow-recursion { may_recursion; };
         allow-transfer  { may_transfer; };
 
-        recursion no;
+        recursion {% if recursion %}yes{% else %}no{% endif %};
 
         dnssec-enable yes;
         dnssec-validation yes;

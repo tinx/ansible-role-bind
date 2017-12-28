@@ -1,11 +1,6 @@
 ---
 - block:
 
-  - name: Stat config file
-    stat:
-      path: /etc/named.conf
-    register: st
-  
   - name: Stop service
     service:
       name: named-chroot
@@ -26,29 +21,10 @@
         name: '{{ item }}'
         state: present
       with_items:
-          - '{{ bind_packages }}'
+        - '{{ bind_packages }}'
+      notify:
+        - restart named-chroot
   
-    # right after package installation, put our default config there.
-    - name: Render default config file
-      template:
-        src: named.conf.default.j2
-        dest: /etc/named.conf
-        mode: 0640
-        owner: root
-        group: named
-      when: not st.stat.exists
-    - name: make sure the include files exist
-      template:
-        src: '{{item}}.j2'
-        dest: '/etc/named/{{item}}'
-        mode: 0640
-        owner: root
-        group: named
-      with_items:
-        - named.primary_zones
-        - named.secondary_zones
-      when: not st.stat.exists
-
     - name: Ensure existence of slaves and primaries directories
       file:
         path: '{{ bind_dir }}'
@@ -56,15 +32,44 @@
         owner: named
         group: named
         mode: 0770
+      notify:
+        - restart named-chroot
       with_items:
         - /etc/named/slaves
         - /etc/named/primaries
       loop_control:
         loop_var: bind_dir
 
-    - name: Render config settings
-      include_tasks: tasks_render_config.yml
-  
+    - name: Render named config file
+      template:
+        src: named.conf.j2
+        dest: /etc/named.conf
+        mode: 0640
+        owner: root
+        group: named
+      notify:
+        - restart named-chroot
+
+    - name: Render master zone config
+      template:
+        src: 'named.primary_zones.j2'
+        dest: '/etc/named/named.primary_zones'
+        mode: 0640
+        owner: root
+        group: named
+      notify:
+        - restart named-chroot
+
+    - name: Render slave zone config
+      template:
+        src: 'named.secondary_zones.j2'
+        dest: '/etc/named/named.secondary_zones'
+        mode: 0640
+        owner: root
+        group: named
+      notify:
+        - restart named-chroot
+
     - name: Control named service
       service:
         name: named-chroot

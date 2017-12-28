@@ -44,10 +44,10 @@ Role Variables
 Example for `listen_on`:
 
 	listen_on:
-	  port: 53
-	  interfaces:
-	    - 127.0.0.1
-	    - 192.168.40.1
+	  - port: 53
+	    interfaces:
+	      - 127.0.0.1
+	      - 192.168.40.1
 
 Example for `slave_zones`:
 

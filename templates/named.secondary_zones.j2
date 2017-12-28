@@ -1,2 +1,11 @@
 // {{ ansible_managed }}
 
+{% if slave_zones is defined %}
+{% for zone in slave_zones %}
+zone "{{ zone.name }}" {
+        type slave;
+        file "db.{{ zone.name }}";
+        masters { {{ zone.masters|join("; ") }}; };
+};
+{% endfor %}
+{%endif %}
