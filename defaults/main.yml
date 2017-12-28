@@ -6,11 +6,11 @@ allow_recursion:
 allow_query:
   - 127.0.0.1
 allow_transfer: []
-lisen_on:
+listen_on:
   - port: 53
     interfaces:
       - 127.0.0.1
-lisen_on_v6:
+listen_on_v6:
   - port: 53
     interfaces:
       - ::1
