@@ -37,3 +37,5 @@
             masters:
               - 10.40.0.5
               - 10.40.0.4
+    - debug:
+        var: hostvars[groups.all[0]].primary_zones

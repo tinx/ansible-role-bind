@@ -86,6 +86,10 @@
           tags:
             - config
             - primary_zones
+       
+        - name: Report facts
+          set_fact:
+             primary_zones: '{{ primary_zones.files|map(attribute="path")|list|map("replace", "/etc/named/primaries/db.", "")|list }}'
 
         - name: Render slave zone config
           template:
