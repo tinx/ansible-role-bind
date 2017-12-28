@@ -49,6 +49,19 @@
         - named.secondary_zones
       when: not st.stat.exists
 
+    - name: Ensure existence of slaves and primaries directories
+      file:
+        path: '{{ bind_dir }}'
+        state: directory
+        owner: named
+        group: named
+        mode: 0770
+      with_items:
+        - /etc/named/slaves
+        - /etc/named/primaries
+      loop_control:
+        loop_var: bind_dir
+
     - name: Render config settings
       include_tasks: tasks_render_config.yml
   

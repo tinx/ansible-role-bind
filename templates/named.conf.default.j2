@@ -8,9 +8,9 @@ options {
         listen-on port 53 { 127.0.0.1; };
         listen-on-v6 port 53 { ::1; };
         directory       "/var/named";
-        dump-file       "/var/named/data/cache_dump.db";
-        statistics-file "/var/named/data/named_stats.txt";
-        memstatistics-file "/var/named/data/named_mem_stats.txt";
+        dump-file       "/run/named/cache_dump.db";
+        statistics-file "/run/named/named_stats.txt";
+        memstatistics-file "/run/named/named_mem_stats.txt";
         allow-query     { may_query; };
         allow-recursion { may_recursion; };
         allow-transfer  { may_transfer; };
@@ -31,7 +31,7 @@ options {
 
 logging {
         channel default_debug {
-                file "data/named.run";
+                file "/run/named/named.run";
                 severity dynamic;
         };
 };
