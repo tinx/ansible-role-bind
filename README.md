@@ -13,7 +13,7 @@ that. So you will have to manage your zone files some other way.
 Zone files must be named `db.*`. Other files will be ignored when
 creating primary zone lists.
 
-This role is written for CentOS 7.S
+This role is written for CentOS 7.4
 
 `root` access is required to install and configure bind. The role
 will therefor use `become: true` and `become_user: root`.
