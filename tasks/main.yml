@@ -6,6 +6,8 @@
       service:
         name: named-chroot
         state: stopped
+      tags:
+        - service_state
       when: state == 'absent' or state == 'present'
     
     - name: Remove bind
@@ -14,6 +16,8 @@
         state: absent
       with_items:
         - '{{ bind_packages }}'
+      tags:
+        - packages
       when: state == 'absent'
     
     - block:
@@ -27,6 +31,9 @@
             - '{{ bind_packages }}'
           notify:
             - restart named-chroot
+          tags:
+            - packages
+            - setup
     
         - name: Ensure existence of slaves and primaries directories
           file:
@@ -42,6 +49,8 @@
             - /etc/named/primaries
           loop_control:
             loop_var: bind_dir
+          tags:
+            - setup
 
         - name: Render named config file
           template:
@@ -52,6 +61,8 @@
             group: named
           notify:
             - restart named-chroot
+          tags:
+            - config
 
         - name: Collect list of primary zones
           find:
@@ -59,6 +70,9 @@
             patterns: 'db.*'
             file_type: file
           register: primary_zones
+          tags:
+            - config
+            - primary_zones
 
         - name: Render master zone config
           template:
@@ -69,6 +83,9 @@
             group: named
           notify:
             - restart named-chroot
+          tags:
+            - config
+            - primary_zones
 
         - name: Render slave zone config
           template:
@@ -79,11 +96,15 @@
             group: named
           notify:
             - restart named-chroot
+          tags:
+            - config
 
         - name: Control named service
           service:
             name: named-chroot
             state: '{{ state }}'
+          tags:
+            - service_state
 
       when: state != 'absent'
 
