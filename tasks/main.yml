@@ -63,7 +63,7 @@
             src: named.conf.j2
             dest: /etc/named.conf
             mode: 0640
-            owner: root
+            owner: named
             group: named
           notify:
             - restart named-chroot
@@ -101,6 +101,7 @@
                 owner: named
                 group: named
                 mode: 0600
+                recurse: true
               notify:
                 - restart named-chroot
             - name: Fix directory permissions
@@ -129,7 +130,7 @@
             src: 'named.primary_zones.j2'
             dest: '/etc/named/named.primary_zones'
             mode: 0640
-            owner: root
+            owner: named
             group: named
           notify:
             - restart named-chroot
@@ -146,7 +147,7 @@
             src: 'named.secondary_zones.j2'
             dest: '/etc/named/named.secondary_zones'
             mode: 0640
-            owner: root
+            owner: named
             group: named
           notify:
             - restart named-chroot
@@ -157,6 +158,7 @@
           service:
             name: named-chroot
             state: '{{ state }}'
+            enabled: true
           tags:
             - service_state
 
