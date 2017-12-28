@@ -1,6 +1,6 @@
 ---
-- name: restart named-chroot
+- name: reload named-chroot
   service:
     name: named-chroot
-    state: restarted
-  listen: 'restart named-chroot'
+    state: reloaded
+  listen: 'reload named-chroot'
