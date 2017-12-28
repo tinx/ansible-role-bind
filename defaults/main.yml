@@ -13,6 +13,6 @@ lisen_on:
 lisen_on_v6:
   - port: 53
     interfaces:
-      - 127.0.0.1
+      - ::1
 slave_zones: []
 keep_primary_zones: false

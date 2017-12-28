@@ -33,7 +33,7 @@
         listen_on_v6:
           - port: 10053
             interfaces:
-              - 0.0.0.0
+              - '::'
         slave_zones:
           - name: etcd.openshift.uf0.de
             masters:
