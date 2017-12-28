@@ -33,7 +33,7 @@ Role Variables
  - `state:` is one of `absent`, `present`, `started`, or `restarted`. The default is `started`.
  - `recursion:` is a boolean. If `true`, recursive queries will be possible, but still limited to the list given in `allow_recursive_queries_from`. Default is `false`.
  - `allow_recursion:` a list of cidr notations to permit making recursive DNS queries. All other clients will be denied. Do not, ever, configure a DNS server to allow recursive queries from untrusted IPs. You would be creating a DDoS tool for others.  The default is `[ "127.0.0.1/32" ]`.
- - `allow_queries:` a list of cidr notations to permit making any queries. All other clients will be denied. The default is `[ "127.0.0.1/32" ]`.
+ - `allow_query:` a list of cidr notations to permit making any queries. All other clients will be denied. The default is `[ "127.0.0.1/32" ]`.
  - `allow_transfer:` is a list of IP adresses that may download our local zone files. (in other words: a list of your secondary/slave name servers) The default is `[]`.
  - `listen_on:` is a list of listen directives. (see below) The default is to listen on all interfaces on port 53.
  - `listen_on_v6:` is the same as `listen_on`, but vor IPv6. The default is the same as for IPv4.
