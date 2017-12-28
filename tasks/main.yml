@@ -53,6 +53,13 @@
           notify:
             - restart named-chroot
 
+        - name: Collect list of primary zones
+          find:
+            paths: /etc/named/primaries
+            patterns: 'db.*'
+            file_type: file
+          register: primary_zones
+
         - name: Render master zone config
           template:
             src: 'named.primary_zones.j2'
