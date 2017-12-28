@@ -2,13 +2,16 @@
 - name: Converge
   hosts: all
   tasks:
-    - copy:
+    - name: Create remote zone source directory
+      copy:
         src: remote_zones/
         dest: /tmp/zones/
-    - file:
+    - name: Create dummy canary file to detect whether it'll be deleted
+      file:
         path: /etc/named/primaries/canary
         state: touch
-    - include_role:
+    - name: Include role under test
+      include_role:
         name: tinx.bind
       vars:
         recursion: true

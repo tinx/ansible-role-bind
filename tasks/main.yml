@@ -1,6 +1,6 @@
 ---
 - block:
-  # block for 'become: true'
+    # block for 'become: true'
 
     - name: Remove primary zone files
       file:
@@ -15,7 +15,7 @@
       tags:
         - service_state
       when: state == 'absent' or state == 'present'
-    
+
     - name: Remove bind
       yum:
         name: '{{ item }}'
@@ -25,9 +25,9 @@
       tags:
         - packages
       when: state == 'absent'
-    
+
     - block:
-      # block for 'state != "absent"'  
+        # block for 'state != "absent"'
 
         - name: Ensure required packages are installed
           yum:
@@ -40,7 +40,7 @@
           tags:
             - packages
             - setup
-    
+
         - name: Ensure existence of slaves and primaries directories
           file:
             path: '{{ bind_dir }}'
@@ -137,10 +137,10 @@
           tags:
             - config
             - primary_zones
-       
+
         - name: Report facts
           set_fact:
-             primary_zones: '{{ primary_zones.files|map(attribute="path")|list|map("replace", "/etc/named/primaries/db.", "")|list }}'
+            primary_zones: '{{ primary_zones.files|map(attribute="path")|list|map("replace", "/etc/named/primaries/db.", "")|list }}'
 
         - name: Render slave zone config
           template:

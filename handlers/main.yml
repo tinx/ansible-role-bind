@@ -4,4 +4,3 @@
     name: named-chroot
     state: restarted
   listen: 'restart named-chroot'
-

@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: Andreas Jaekel
   description: Installs and configures bind9 on CnetOS 7
