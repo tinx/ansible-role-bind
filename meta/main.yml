@@ -12,5 +12,14 @@ galaxy_info:
   galaxy_tags:
     - bind9
     - bind
+    - chroot
+    - nameserver
+    - DNS
+    - resolver
+    - primary
+    - sedondary
+    - hidden primary
+    - master
+    - slave
 
 dependencies: []
