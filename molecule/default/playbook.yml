@@ -6,10 +6,15 @@
       copy:
         src: remote_zones/
         dest: /tmp/zones/
+    - name: Create conf dir in preparation for canary test
+      file:
+        path: /etc/named/primaries
+        state: directory
     - name: Create dummy canary file to detect whether it'll be deleted
       file:
         path: /etc/named/primaries/canary
         state: touch
+      changed_when: false
     - name: Include role under test
       include_role:
         name: tinx.bind
@@ -49,5 +54,5 @@
         local_zone_file_dir: 'zones/'
         remote_zone_file_dir: '/tmp/zones/'
         keep_primary_zones: true
-    - debug:
-        var: hostvars[groups.all[0]].primary_zones
+#    - debug:
+#        var: hostvars[groups.all[0]].primary_zones

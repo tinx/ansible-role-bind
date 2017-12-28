@@ -47,7 +47,7 @@
             state: directory
             owner: named
             group: named
-            mode: 0770
+            mode: 0700
           notify:
             - restart named-chroot
           with_items:
@@ -78,6 +78,7 @@
             group: named
             mode: 0600
             directory_mode: 0700
+          changed_when: false
           notify:
             - restart named-chroot
           tags:
@@ -92,6 +93,7 @@
               shell: cp -r * /etc/named/primaries/
               args:
                 chdir: '{{ remote_zone_file_dir }}'
+              changed_when: false
               notify:
                 - restart named-chroot
             - name: Fix file permissions
@@ -102,12 +104,12 @@
                 group: named
                 mode: 0600
                 recurse: true
-              notify:
-                - restart named-chroot
+              changed_when: false
             - name: Fix directory permissions
               file:
                 path: /etc/named/primaries
                 mode: 0700
+              changed_when: false
           tags:
             - config
             - primary_zones
