@@ -4,7 +4,7 @@
 {% for zone in slave_zones %}
 zone "{{ zone.name }}" {
         type slave;
-        file "slaves/db.{{ zone.name }}";
+        file "/etc/named/slaves/db.{{ zone.name }}";
         masters { {{ zone.masters|join("; ") }}; };
 };
 {% endfor %}

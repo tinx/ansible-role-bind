@@ -71,7 +71,7 @@ def test_primary_zone_settings(host):
 
 def test_secondary_zone_settings(host):
     f = host.file('/etc/named/named.secondary_zones')
-    assert f.contains('file "slaves/db.shire.example.com";')
+    assert f.contains('file "/etc/named/slaves/db.shire.example.com";')
     assert f.contains('zone "mordor.example.com" {')
     assert f.contains('masters { 10.40.0.5; 10.40.0.4; };')
 
