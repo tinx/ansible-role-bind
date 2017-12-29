@@ -1,8 +1,8 @@
 ---
-- name: reload named-chroot
+- name: restart named-chroot
   service:
     name: named-chroot
-    state: reloaded
+    state: restarted
   become: true
   become_user: root
-  listen: 'reload named-chroot'
+  listen: 'restart named-chroot'
