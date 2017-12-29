@@ -43,11 +43,11 @@
             interfaces:
               - '::'
         slave_zones:
-          - name: etcd.openshift.uf0.de
+          - name: mordor.example.com
             masters:
               - 10.40.0.5
               - 10.40.0.4
-          - name: node.openshift.uf0.de
+          - name: shire.example.com
             masters:
               - 10.40.0.5
               - 10.40.0.4
