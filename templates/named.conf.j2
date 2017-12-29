@@ -8,6 +8,7 @@ acl "may_query" {
 {% endif %}
 };
 
+{% if recursion %}
 acl "may_recursion" {
 {% if allow_recursion is defined %}
 {% for cidr in allow_recursion %}
@@ -15,6 +16,7 @@ acl "may_recursion" {
 {% endfor %}
 {% endif %}
 };
+{% endif %}
 
 acl "may_transfer" {
 {% if allow_transfer is defined %}
@@ -44,7 +46,9 @@ options {
         statistics-file "/run/named/named_stats.txt";
         memstatistics-file "/run/named/named_mem_stats.txt";
         allow-query     { may_query; };
+{% if recursion %}
         allow-recursion { may_recursion; };
+{% endif %}
         allow-transfer  { may_transfer; };
 
         recursion {% if recursion %}yes{% else %}no{% endif %};
