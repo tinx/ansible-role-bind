@@ -1,7 +1,7 @@
 // {{ ansible_managed }}
 
-{% if primary_zones is defined %}
-{% for zone in primary_zones.files %}
+{% if p_zones is defined %}
+{% for zone in p_zones.files %}
 zone "{{ zone.path|replace("/etc/named/primaries/db.", "") }}" {
         type master;
         file "{{ zone.path }}";

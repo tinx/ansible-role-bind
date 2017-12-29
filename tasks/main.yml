@@ -122,7 +122,7 @@
             paths: /etc/named/primaries
             patterns: 'db.*'
             file_type: file
-          register: primary_zones
+          register: p_zones
           tags:
             - config
             - primary_zones
@@ -142,7 +142,8 @@
 
         - name: Report facts
           set_fact:
-            primary_zones: '{{ primary_zones.files|map(attribute="path")|list|map("replace", "/etc/named/primaries/db.", "")|list }}'
+            primary_zones: '{{ primary_zones|default([]) + [ { "name": item, "masters": [ inventory_hostname ] } ] }}'
+          with_items: '{{ p_zones.files|map(attribute="path")|map("replace", "/etc/named/primaries/db.", "")|list }}'
 
         - name: Render slave zone config
           template:
