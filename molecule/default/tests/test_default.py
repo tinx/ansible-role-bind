@@ -57,6 +57,8 @@ def test_config_settings(host):
                       '                10.40.0.6\n};')
     assert f.contains('listen-on-v6 port 53 {\n                ::\n};')
     assert f.contains('recursion yes;')
+    assert f.contains('allow-notify {')
+    assert f.contains('also-notify {')
     assert f.contains('include "/etc/named/named.primary_zones";')
     assert f.contains('include "/etc/named/named.secondary_zones";')
 

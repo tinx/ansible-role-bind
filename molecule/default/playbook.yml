@@ -33,6 +33,11 @@
         allow_transfer:
           - 10.40.0.5
           - 10.40.0.4
+        allow_notify:
+          - 10.40.0.5
+          - 10.40.0.4
+        also_notify:
+          - 10.40.0.6
         listen_on:
           - port: 53
             interfaces:

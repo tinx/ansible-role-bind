@@ -50,6 +50,20 @@ options {
         allow-recursion { may_recursion; };
 {% endif %}
         allow-transfer  { may_transfer; };
+{% if also_notify is defined %}
+        also-notify {
+{% for server in also_notify %}
+                {{ server }};
+{% endfor %}
+        };
+{% endif %}
+{% if allow_notify is defined %}
+        allow-notify {
+{% for server in allow_notify %}
+                {{ server }};
+{% endfor %}
+        };
+{% endif %}
 
         recursion {% if recursion %}yes{% else %}no{% endif %};
 
