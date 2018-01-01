@@ -56,6 +56,12 @@
             masters:
               - 10.40.0.5
               - 10.40.0.4
+        slave_zone_list:
+          - rivendell.example.com
+          - rohan.example.com
+        master_servers:
+          - 10.70.0.4
+          - 10.70.0.5
         local_zone_file_dir: 'zones/'
         remote_zone_file_dir: '/tmp/zones/'
         keep_primary_zones: true

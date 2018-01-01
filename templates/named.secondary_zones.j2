@@ -9,3 +9,13 @@ zone "{{ zone.name }}" {
 };
 {% endfor %}
 {%endif %}
+
+{% if slave_zone_list is defined and master_servers is defined %}
+{% for zone in slave_zone_list %}
+zone "{{ zone }}" {
+        type slave;
+        file "slaves/db.{{ zone }}";
+        masters { {{ master_servers|join("; ") }}; };
+};
+{% endfor %}
+{%endif %}

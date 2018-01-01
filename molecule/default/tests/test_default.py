@@ -76,6 +76,9 @@ def test_secondary_zone_settings(host):
     assert f.contains('file "slaves/db.shire.example.com";')
     assert f.contains('zone "mordor.example.com" {')
     assert f.contains('masters { 10.40.0.5; 10.40.0.4; };')
+    assert f.contains('file "slaves/db.rivendell.example.com";')
+    assert f.contains('zone "rohan.example.com" {')
+    assert f.contains('masters { 10.70.0.4; 10.70.0.5; };')
 
 
 def test_etc_files_are_available_in_chroot(host):

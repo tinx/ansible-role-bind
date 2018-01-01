@@ -15,4 +15,6 @@ listen_on_v6:
     interfaces:
       - ::1
 slave_zones: []
+slave_zone_list: []
+master_servers: []
 keep_primary_zones: false

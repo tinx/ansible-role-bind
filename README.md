@@ -44,6 +44,8 @@ Role Variables
  - `local_zone_file_dir:` is a (local) path to a directory containing zone files, which will be copied to the server and integrated into the configuration files as primary zones.
  - `remote_zone_file_dir:` is the same, but for a directory that already exists on the destination server.
  - `slave_zones:` is a list of zones to configure as slave zones. The default is `[]`.
+ - `slave_zone_list:` is an alternative way to specify slave zones. This is a simple list of zone names. If used, `master_servers` must also be specified. Default is `[]`.
+ - `master_servers:` is a list of servers to register as DNS master servers for the zones listed in `slave_zone_list`. Default is `[]`.
  - `keep_primary_zones:` is a flag. If `true`, currently existing primary zone files on the remote host will NOT be removed. Default is `false`.
 
 Example for `listen_on`:
